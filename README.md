@@ -1,2 +1,3 @@
 # WebEdge
-Bringing Edge to your Web Performance
+
+[![Build Status](https://travis-ci.org/HarshCasper/WebEdge.svg?branch=main)](https://travis-ci.org/HarshCasper/WebEdge)
