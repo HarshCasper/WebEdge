@@ -12,5 +12,5 @@ if __name__ == '__main__':
         spider = website_analysis.spider(site_domain, site_map)
         spider.crawl()
     else:
-        print("Run the Command: python3 main.py http://[YOUR_WEBSITE]]")
+        print("Run the Command: python3 webedge/main.py http://[YOUR_WEBSITE]]")
         exit
