@@ -4,6 +4,6 @@ python:
 cache: pip
 install:
   - pip install -r requirements.txt
+  - pip install -r tests/test-requirements.txt
 script:
-  - cd webedge
-  - python main.py 
+  - python setup.py install

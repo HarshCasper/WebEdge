@@ -1,4 +1,4 @@
-import webpage_analysis
+from webedge import webpage_analysis
 from bs4 import BeautifulSoup as Soup
 import json
 import requests
