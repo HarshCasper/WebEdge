@@ -1,9 +1,7 @@
 from setuptools import setup, find_packages
-import os
-import re
 
 # specify requirements of your package here
-REQUIREMENTS = ['BeautifulSoup4','requests','soupsieve','urllib3','six']
+REQUIREMENTS = ['BeautifulSoup4', 'requests', 'soupsieve', 'urllib3', 'six']
 
 setup(
     name='WebEdge',
