@@ -1,6 +1,8 @@
 import json
 import argparse
 from webedge import website_analysis
+from webedge import cli_output
+
 def create_parser():
     """
         Creates a Parser to pass Arguement Parser.
@@ -47,7 +49,8 @@ def main():
     parser = create_parser()
     args = parser.parse_args()
     report = analyze(args.domain, args.sitemap, args.page)
-    print(report)
+    cli_output.outputName("WebEdge")
+    cli_output.outputJson(report)
 
 if __name__ == "__main__":
     main()
