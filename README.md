@@ -53,8 +53,14 @@ Once you run the Commands and get everything fine, we are all set to run the too
 
 Let's run the tool now: 
 ```BASH
-(venv) $ webedge -d http://[DOMAIN_NAME]
+(venv) $ webedge -d http://[DOMAIN_NAME]/
 ```
+
+* For example if your domain is ajitesh13.github.io then your command should be (you can use `http` or `https` in the command according to your needs): 
+
+```BASH
+(venv) $ webedge -d https://ajitesh13.github.io/
+``` 
 Pass your Website to the tool and you will get a generated JSON highlighting all the achievements you have made in SEO Optimization or the warnings being displayed by the same 🔑
 
 We are now working on dockerizing the Package and publishing it on PyPi as well for easy accessibility 💻
