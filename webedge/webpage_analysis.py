@@ -112,7 +112,7 @@ class Webpage:
         if length == 0:
             self.warn(WARNINGS["DESCRIPTION_MISSING"])
             return
-        elif length < 140:
+        if length < 140:
             self.warn(WARNINGS["DESCRIPTION_TOO_SHORT"], self.description)
         elif length > 255:
             self.warn(WARNINGS["DESCRIPTION_TOO_LONG"], self.description)
