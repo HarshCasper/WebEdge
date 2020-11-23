@@ -1,8 +1,7 @@
 from __future__ import print_function, unicode_literals
-from PyInquirer import style_from_dict, Token, prompt, Separator
-from pprint import pprint
+from PyInquirer import style_from_dict, Token, prompt
 from pyfiglet import Figlet
-from colorama import Fore, Back, Style
+from colorama import Fore, Style
 import json
 
 jsonData = ['emptyData']
@@ -16,19 +15,13 @@ style = style_from_dict({
     Token.Instruction: '',  # default
     Token.Answer: '#0000ff bold',
     Token.Question: '',
-})
-
-def getc1(answers):
-    options = []
-    for i in jsonData.keys():
-        options.append(i)
-    return options
+})    
 
 def shouldc2(answers):
-    if answers['c1'] != 'site':
+    check1 = answers['c1']
+    if check1 != 'site':
         return True
-    else:
-        return False
+    return False
 
 def getm2(answers):
     m2 = "Which "+str(answers['c1']+" you want to review?")
@@ -61,12 +54,16 @@ def filterc3(val):
 def outputJson(jsonValue):
     global jsonData
     jsonData = json.loads(jsonValue)
+    options = []
+    for i in jsonData.keys():
+        options.append(i)
+
     questions = [
         {
             'type': 'list',
             'name': 'c1',
             'message': 'What do you want to check first ?',
-            'choices': getc1
+            'choices': options
         },
         {
             'type': 'list',
@@ -109,11 +106,11 @@ def outputJson(jsonValue):
             }
         ]
         a = prompt(qn, style=style)
-        if a['forward'] == False:
+        if a['forward'] is False:
             didBreak = True
             break;
 
-    if didBreak == False:
+    if didBreak is False:
         print('List Ended')
 
     retry = [
