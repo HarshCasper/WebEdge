@@ -1,53 +1,125 @@
-from webedge import webpage_analysis
 from bs4 import BeautifulSoup as Soup
-import json
 import requests
+from six.moves.urllib import parse
+from webedge.warnings import BADGES
+from webedge.warnings import WARNINGS
+from webedge import webpage_analysis
 
+class Spider:
+    report = {"pages": []}
+    def __init__(self, site, sitemap=None, page=None):
+        parsed_url = parse.urlparse(site)
 
-class Spider(object):
-    pages_to_crawl = []
-    pages_crawled = []
+        self.domain = "{0}://{1}".format(parsed_url.scheme, parsed_url.netloc)
+        self.pages_crawled = []
+        self.pages_to_crawl = []
+        self.titles = {}
+        self.descriptions = {}
+        self.issues = []
+        self.achieved = []
 
-    titles = {}
-    descriptions = {}
-
-    report = {
-        "pages": []
-    }
-
-    def __init__(self, site, sitemap=None):
         if sitemap is not None:
-            locations = self._parse_sitemap(sitemap)
+            locations = []
+            resp = requests.get(self.domain + sitemap)
+            if resp.status_code == requests.codes.ok:
+                locations = self._parse_sitemap(resp.content)
+
+            self.pages_to_crawl.append(site)
             self.pages_to_crawl.extend(locations)
+        elif page is not None:
+            self.pages_to_crawl.append(site + page)
         else:
             self.pages_to_crawl.append(site)
 
-    def _parse_sitemap(self, url):
-        '''
-        Parse the Sitemap for Locations
-        '''
-        output = []
+    def _parse_sitemap(self, sitemap):
+        """
+        Parse the Sitemap for Locations.
+        Args:
+            sitemap: XML Sitempa
+        Returns:
+            locations
+        """
+        locations = []
 
-        resp = requests.get(url)
-        if not resp.ok:
-            return []
-
-        soup = Soup(resp.content, "html.parser")
+        soup = Soup(sitemap, "html.parser")
         urls = soup.findAll('url')
 
-        if len(url) > 0:
+        if len(urls) > 0:
             for u in urls:
                 loc = u.find('loc').string
-                output.append(loc)
+                locations.append(loc)
 
-        return output
+        return locations
+
+    def _analyze_crawlers(self):
+        """
+        Analyzes Crawlers in form of robots.txt file.
+        Returns:
+            Badges/Warnings: Depending on whether a Robots.txt exists.
+        """
+        resp = requests.get(self.domain + "/robots.txt")
+        if resp.status_code == requests.codes.ok:
+            self.earned(BADGES["ROBOTS.TXT"])
+        else:
+            self.warn(WARNINGS["ROBOTS.TXT"])
+
+    def _analyze_blog(self):
+        """
+        Analyzes Blogs in form of a Blogging Subdomain
+        Returns:
+            Badges/Warnings: Depending on whether a Blog exists or not.
+        """
+        resp = requests.get(self.domain + "/blog")
+        if resp.status_code == requests.codes.ok:
+            self.earned(BADGES["BLOG_DETECTED"], self.domain + u"/blog")
+        else:
+            self.warn(WARNINGS["BLOG_MISSING"])
+
+    def warn(self, message, value=None):
+        """
+        Value lost through improper SEO Optimization on the Website.
+        """
+        self.issues.append(
+            {
+                "warning": message,
+                "value": value
+            }
+        )
+
+    def earned(self, message, value=None):
+        """
+        Value earned through proper SEO Optimization on the Website.
+        """
+        self.achieved.append(
+            {
+                "achievement": message,
+                "value": value
+            }
+        )
 
     def crawl(self):
-        for page in self.pages_to_crawl:
-            html = webpage_analysis.Webpage(page, self.titles, self.descriptions)
-
-            page_report = html.report()
-            self.report['pages'].append(page_report)
-            self.pages_crawled.append(page.strip().lower())
-
-        print(json.dumps(self.report, indent=4, separators=(',', ': ')))
+        """
+        Crawl the Website and analyze different things.
+        """
+        self._analyze_crawlers()
+        self._analyze_blog()
+        for page_url in self.pages_to_crawl:
+            resp = requests.get(page_url)
+            if resp.status_code == requests.codes.ok:
+                html = webpage_analysis.Webpage(
+                    page_url, resp.content, self.titles, self.descriptions)
+                page_report = html.report()
+                self.report['pages'].append(page_report)
+                self.pages_crawled.append(page_url.strip().lower())
+                print("Crawled {0} Pages of {1}: {2}".format(
+                    len(self.pages_crawled), len(self.pages_to_crawl), page_url))
+            elif resp.status_code == requests.codes.not_found:
+                self.warn(WARNINGS["BROKEN_LINK"], page_url)
+            else:
+                self.warn(WARNINGS["SERVER_ERROR"],
+                          "HTTP{0} received for {1}".format(
+                              resp.status_code, page_url))
+        self.report["site"] = {}
+        self.report["site"]["issues"] = self.issues
+        self.report["site"]["achieved"] = self.achieved
+        return self.report
