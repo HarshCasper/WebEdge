@@ -52,7 +52,7 @@ def filterc3(val):
 
     
 def outputJson(jsonValue):
-    global jsonData
+    global jsonData #skipcq PYL-W0603
     jsonData = json.loads(jsonValue)
     options = []
     for i in jsonData.keys():
