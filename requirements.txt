@@ -8,3 +8,4 @@ PyInquirer >= 1.0.3
 prompt_toolkit == 1.0.14
 pyfiglet >= 0.8.post1
 colorama >= 0.4.4
+clanimate == 0.0.1
