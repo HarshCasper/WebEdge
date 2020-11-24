@@ -171,7 +171,7 @@ def exitError():
 
 def catsay(message):
     space = (len(message)+4)
-    upBlock = "  "+"_"*space+"\n "+ "/"+" "*space+"\ \n |< "
+    upBlock = "  "+"_"*space+"\n "+ "/"+" "*space+"\\ \n |< "
     downBlock = " >|\n \\"+"_"*space+"/\n "
-    catStr = "	      \ \n "+"	       \    /\_/\           ___\n "+"		\  = o_o =_______    \ \ \n "+ "		    __^      __(  \.__) )\n "+"		(@)<_____>__(_____)____/\n"
+    catStr = "	      \\ \n "+"	       \\    /\\_/\\           ___\n "+"		\\  = o_o =_______    \\ \\ \n "+ "		    __^      __(  \\.__) )\n "+"		(@)<_____>__(_____)____/\n"
     print(Style.RESET_ALL + Fore.YELLOW + Style.BRIGHT + upBlock + message + downBlock + catStr + Style.RESET_ALL)

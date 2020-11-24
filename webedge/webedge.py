@@ -58,7 +58,7 @@ def main():
         cli_output.outputJson(report)
     except (SystemExit,KeyError) :
         cli_output.exitError()
-    except:
+    except: #skipcq FLK-E722
         cli_output.printError(str(sys.exc_info()[0])+"\n"+str(sys.exc_info()[1]))
         cli_output.outputError()
 
