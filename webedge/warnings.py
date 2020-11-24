@@ -1,4 +1,8 @@
 WARNINGS = {
+    "NEGATIVE_DESCRIPTION":
+    u"Description is too negative",
+    "NEGATIVE_TITLE":
+    u"Title is too negative",
     "TITLE_MISSING":
     u"Title tag is missing or empty.",
     "TITLE_TOO_SHORT":
@@ -90,12 +94,20 @@ WARNINGS = {
     u"Ensure your blog exists on this domain to build your domain authority."
 }
 BADGES = {
+    "POSITIVE_TITLE":
+    u"Title has positive sentiments",
+    "NEUTRAL_TITLE":
+    u"Title has neutral sentiments",
     "TITLE_LENGTH":
     u"Title length is between 10 and 70 characters.",
     "TITLE_INFORMATIVE":
     u'Title is informative.',
     "TITLE_UNIQUE":
     u'This page has a unique title tag.',
+    "NEUTRAL_DESCRIPTION":
+    u"Description has neutral sentiments",
+    "POSITIVE_DESCRIPTION":
+    u"Description has positive sentiments",
     "DESCRIPTION_LENGTH":
     u'Descriptions are important as Google may use them as page snippets.',
     "DESCRIPTION_INFORMATIVE":
