@@ -49,10 +49,10 @@ def main():
             report: JSON Report of the whole Website/Webpage/Sitemap
     """
     cli_output.outputName("WebEdge")
-    cli_output.startLoading()
+    parser = create_parser()
+    args = parser.parse_args()
     try:
-        parser = create_parser()
-        args = parser.parse_args()
+        cli_output.startLoading()
         report = analyze(args.domain, args.sitemap, args.page)
         cli_output.endLoading()
         cli_output.outputJson(report)
