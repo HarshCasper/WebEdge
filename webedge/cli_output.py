@@ -164,7 +164,7 @@ def outputError():
     catsay("WebEdge Couldn't Parse Your Website")
 
 def printError(errMessage):
-    print(Style.RESET_ALL+Fore.RED+Style.BRIGHT+"ERROR => "+errMessage+Style.RESET_ALL)
+    print(Style.RESET_ALL+Fore.RED+Style.BRIGHT+"\nERROR => "+errMessage+Style.RESET_ALL)
 
 def exitError():
     catsay("Unexpected Exit By User")
