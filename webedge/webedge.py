@@ -51,11 +51,21 @@ def main():
     cli_output.outputName("WebEdge")
     parser = create_parser()
     args = parser.parse_args()
+    err = False
+    cli_output.startLoading()
     try:
-        cli_output.startLoading()
         report = analyze(args.domain, args.sitemap, args.page)
-        cli_output.endLoading()
-        cli_output.outputJson(report)
+    except (SystemExit,KeyError) :
+        cli_output.exitError()
+        err = True
+    except: #skipcq FLK-E722
+        cli_output.printError(str(sys.exc_info()[0])+"\n"+str(sys.exc_info()[1]))
+        cli_output.outputError()
+        err = True
+    cli_output.endLoading()
+    try:
+        if err is False:
+            cli_output.outputJson(report)
     except (SystemExit,KeyError) :
         cli_output.exitError()
     except: #skipcq FLK-E722
