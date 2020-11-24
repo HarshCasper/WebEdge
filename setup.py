@@ -5,7 +5,7 @@ REQUIREMENTS = ['BeautifulSoup4', 'requests', 'soupsieve', 'urllib3', 'six']
 
 setup(
     name='WebEdge',
-    version='1.0.0',
+    version='1.0.1',
     license='MIT License',
     author='MLH Fellowship Team 1',
     author_email='erbeusgriffincasper@gmail.com',

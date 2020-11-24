@@ -111,8 +111,8 @@ class Spider:
                 page_report = html.report()
                 self.report['pages'].append(page_report)
                 self.pages_crawled.append(page_url.strip().lower())
-                print("Crawled {0} Pages of {1}: {2}".format(
-                    len(self.pages_crawled), len(self.pages_to_crawl), page_url))
+                # print("Crawled {0} Pages of {1}: {2}".format(
+                #     len(self.pages_crawled), len(self.pages_to_crawl), page_url))
             elif resp.status_code == requests.codes.not_found:
                 self.warn(WARNINGS["BROKEN_LINK"], page_url)
             else:

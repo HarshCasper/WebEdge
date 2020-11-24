@@ -3,9 +3,10 @@ from PyInquirer import style_from_dict, Token, prompt
 from pyfiglet import Figlet
 from colorama import Fore, Style
 import json
+import clanimate
 
 jsonData = ['emptyData']
-
+loadingAnim = clanimate.Animator('scroll_text', 10, name = " => WebEdge Is Scrapping Your Website ", animation_frames="===============")
 
 style = style_from_dict({
     Token.Separator: '#cc5454',
@@ -57,7 +58,7 @@ def outputJson(jsonValue):
     options = []
     for i in jsonData.keys():
         options.append(i)
-
+    print()
     questions = [
         {
             'type': 'list',
@@ -125,6 +126,24 @@ def outputJson(jsonValue):
     if res['again'] is True:
         outputJson(jsonValue)
     else:
+        saveFile = [
+            {
+                'type': 'confirm',
+                'name': 'fileSave',
+                'message': 'Do you want to save your analysis in a file?',
+                'default': True
+            }
+        ]
+        isFileSaved = prompt(saveFile, style = style)
+        if isFileSaved['fileSave'] is True:
+            filename = str(jsonData['pages'][0]['url'] + '_webedge_analysis.txt')
+            bad_chars = ['/', ':', '\\']
+            for i in bad_chars:
+                filename = filename.replace(i,'')
+            with open(filename, 'w') as f:
+                f.write(jsonValue)
+            print(filename+" saved")
+            
         print(Fore.GREEN+Style.BRIGHT+"=====================\nWebEdge Analysis Done\n====================="+Style.RESET_ALL)
 
 def outputName(name):
@@ -133,3 +152,26 @@ def outputName(name):
     print(Fore.GREEN + Style.BRIGHT + f.renderText(name))
     print(Style.RESET_ALL)
 
+def startLoading():
+    print(Fore.GREEN + Style.BRIGHT , end='')
+    loadingAnim.start_animation()
+
+def endLoading():
+    loadingAnim.end_animation()
+    print(Style.RESET_ALL, end='')
+
+def outputError():
+    catsay("WebEdge Couldn't Parse Your Website")
+
+def printError(errMessage):
+    print(Style.RESET_ALL+Fore.RED+Style.BRIGHT+"ERROR => "+errMessage+Style.RESET_ALL)
+
+def exitError():
+    catsay("Unexpected Exit By User")
+
+def catsay(message):
+    space = (len(message)+4)
+    upBlock = "  "+"_"*space+"\n "+ "/"+" "*space+"\ \n |< "
+    downBlock = " >|\n \\"+"_"*space+"/\n "
+    catStr = "	      \ \n "+"	       \    /\_/\           ___\n "+"		\  = o_o =_______    \ \ \n "+ "		    __^      __(  \.__) )\n "+"		(@)<_____>__(_____)____/\n"
+    print(Style.RESET_ALL + Fore.YELLOW + Style.BRIGHT + upBlock + message + downBlock + catStr + Style.RESET_ALL)
