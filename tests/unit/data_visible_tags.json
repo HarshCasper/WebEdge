@@ -1,0 +1,21 @@
+{
+    "style": ["<html><head><style></style></head></html>", false],
+    "script": ["<html><body><script>alert();</script></body></html>", false],
+    "document": ["[document]", false],
+    "head": ["<html><head></head></html>", false],
+    "title": ["<html><head><title>Title</title></head></html>", false],
+    "meta": ["<html><head><meta /></head></html>", false],
+    "comment": ["<html><div><!-- this is a comment --></div></html>", false],
+    "p": ["<html><p>paragraph</p></html>", true],
+    "a": ["<html><a href=''>link</a></html>", true],
+    "b": ["<html><b>bold</b></html>", true],
+    "strong": ["<html><strong>strong</strong></html>", true],
+    "em": ["<html><em>em</em></html>", true],
+    "i": ["<html><i>italic</i></html>", true],
+    "h1": ["<html><h1>header 1</h1></html>", true],
+    "h2": ["<html><h2>header 2</h2></html>", true]
+}
+
+
+
+
