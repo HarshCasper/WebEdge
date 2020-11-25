@@ -6,9 +6,11 @@ from webedge.stop_words import ENGLISH_STOP_WORDS
 from webedge.warnings import BADGES
 from webedge.warnings import WARNINGS
 from webedge.social_websites import SOCIAL_WEBSITES
+from AnalyseSentiment.AnalyseSentiment import AnalyseSentiment
 
 # REGEX to match the Words on the Markup Document
 TOKEN_REGEX = re.compile(r'(?u)\b\w\w+\b')
+
 
 class Webpage:
     url = None
@@ -77,6 +79,15 @@ class Webpage:
             self.warn(WARNINGS["TITLE_TOO_GENERIC"], self.title)
         else:
             self.earned(BADGES["TITLE_INFORMATIVE"], self.title)
+        
+        sentimentobj = AnalyseSentiment()
+        sentimentdata = sentimentobj.Analyse(self.title)
+        if sentimentdata.get('overall_sentiment') == 'Negative':
+            self.warn(WARNINGS["NEGATIVE_TITLE"], self.title)
+        elif sentimentdata.get('overall_sentiment') == 'Neutral':
+            self.earned(BADGES["NEUTRAL_TITLE"], self.title)
+        else:
+            self.earned(BADGES["POSITIVE_TITLE"], self.title)
 
         title_words = self.grouped(self.tokenize(t))
         for word, count in title_words:
@@ -125,6 +136,15 @@ class Webpage:
             self.warn(WARNINGS["DESCRIPTION_TOO_GENERIC"], self.description)
         else:
             self.earned(BADGES["DESCRIPTION_INFORMATIVE"], self.description)
+
+        sentimentobj = AnalyseSentiment()
+        sentimentdata = sentimentobj.Analyse(self.title)
+        if sentimentdata.get('overall_sentiment') == 'Negative':
+            self.warn(WARNINGS["NEGATIVE_DESCRIPTION"], self.description)
+        elif sentimentdata.get('overall_sentiment') == 'Neutral':
+            self.earned(BADGES["NEUTRAL_DESCRIPTION"], self.description)
+        else:
+            self.earned(BADGES["POSITIVE_DESCRIPTION"], self.description)
 
         desc_words = self.grouped(self.tokenize(d))
         for word, count in desc_words:
@@ -265,11 +285,10 @@ class Webpage:
                 if len(parse.urlparse(src).netloc) == 0 \
                    or self.netloc in src:
                     if len(src) > 15:
-                        self.warn(WARNINGS["IMAGE_SRC_TOO_LONG"], src)    
+                        self.warn(WARNINGS["IMAGE_SRC_TOO_LONG"], src)
                 if len(image.get('alt', '')) > 40:
                     self.warn(WARNINGS["IMAGE_ALT_TOO_LONG"],
                               image.get('alt', ''))
-
 
     def _analyze_headings(self, doc):
         """
@@ -331,7 +350,6 @@ class Webpage:
         else:
             self.earned(BADGES["WORDCOUNT"],
                         u"You have {0} words.".format(count))
-
 
     def _render(self):
         '''
