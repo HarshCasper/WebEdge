@@ -1,0 +1,8 @@
+{
+    "good_website": "200|<html><head><title>This is a title that is good.</title></head></html>",
+    "not_found_website": "404|<html><head><title>This is a title that is not found.</title></head></html>",
+    "crashed_website": "500|<html><head><title>This is a title for a broken site.</title></head></html>"
+}
+
+
+
