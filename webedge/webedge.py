@@ -1,6 +1,9 @@
 import json
 import argparse
 from webedge import website_analysis
+from webedge import cli_output
+import sys
+
 def create_parser():
     """
         Creates a Parser to pass Arguement Parser.
@@ -38,16 +41,36 @@ def analyze(domain, sitemap, page):
     raw_report = spider.crawl()
     report = json.dumps(raw_report, indent=4, separators=(',', ': '))
     return report
+
 def main():
     """
         Main Function to run the Parser and invoke the Scripts.
         Returns:
             report: JSON Report of the whole Website/Webpage/Sitemap
-        """
+    """
+    cli_output.outputName("WebEdge")
     parser = create_parser()
     args = parser.parse_args()
-    report = analyze(args.domain, args.sitemap, args.page)
-    print(report)
+    err = False
+    cli_output.startLoading()
+    try:
+        report = analyze(args.domain, args.sitemap, args.page)
+    except (SystemExit,KeyError) :
+        cli_output.exitError()
+        err = True
+    except: #skipcq FLK-E722
+        cli_output.printError(str(sys.exc_info()[0])+"\n"+str(sys.exc_info()[1]))
+        cli_output.outputError()
+        err = True
+    cli_output.endLoading()
+    try:
+        if err is False:
+            cli_output.outputJson(report)
+    except (SystemExit,KeyError) :
+        cli_output.exitError()
+    except: #skipcq FLK-E722
+        cli_output.printError(str(sys.exc_info()[0])+"\n"+str(sys.exc_info()[1]))
+        cli_output.outputError()
 
 if __name__ == "__main__":
     main()

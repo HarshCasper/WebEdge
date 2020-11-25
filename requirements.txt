@@ -37,5 +37,8 @@ statistics==1.0.3.5
 toml==0.10.2
 tqdm==4.53.0
 urllib3==1.26.2
-WebEdge==1.0.0
-webencodings==0.5.1
+PyInquirer >= 1.0.3
+prompt_toolkit == 1.0.14
+pyfiglet >= 0.8.post1
+colorama >= 0.4.4
+clanimate == 0.0.1
