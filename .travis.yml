@@ -7,3 +7,4 @@ install:
   - pip install -r tests/test-requirements.txt
 script:
   - python setup.py install
+  - nosetests --with-coverage --cover-package=webedge tests.unit

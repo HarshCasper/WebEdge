@@ -1,0 +1,10 @@
+{
+    "URL_TOO_LONG": ["http://www.amazon.com/gp/product/B0007TJ5OG/102-8372974-4064145?v=glance&n=502394&m=ATVPDKIKX0DER&n=3031001&s=photo&v=glance'", "URL_TOO_LONG"],
+    "URL_TOO_GENERIC": ["http://www.domain.com/page1.html", "URL_TOO_GENERIC"],
+    "URL_KEYWORD_STUFFED": ["http://www.domain.com/baseball-cards-baseball-cards-baseballcards.htm", "URL_KEYWORD_STUFFED"],
+    "URL_TOO_DEEP": ["http://www.domain.com/redfish/bluefish/blackfish/bluefish/oldfish/newfish/little_star.html", "URL_TOO_DEEP"],
+    "URL_CAPITALIZED": ["http://www.domain.com/SomeWhoRun.html", "URL_CAPITALIZED"]
+}
+
+
+
