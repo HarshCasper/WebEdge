@@ -102,14 +102,12 @@ def outputJson(jsonValue):
     no = 0
     didBreak = False
     allAtOnce = False
-    fullList = ""
-    if answers['c4'] is 'All at Once':
+    if answers['c4'] == 'All at Once':
         allAtOnce = True
     for i in li:
         no = no + 1
         ivalue = str(i['value'])
         message = "Point - "+str(no)+"\n Label : "+i[k1]+"\n Current : "+ivalue;
-        fullList = fullList+message+"\n\n"
         if allAtOnce is False:
             qn = [
                 {
@@ -159,7 +157,7 @@ def outputJson(jsonValue):
             for i in bad_chars:
                 filename = filename.replace(i,'')
             with open(filename, 'w+') as f:
-                f.write(yaml.dump(yaml.load(json.dumps(json.loads(jsonValue)),yaml.Loader)))
+                f.write(yaml.dump(yaml.safe_load(json.dumps(json.loads(jsonValue)))))
             print(filename+" saved")
             
         print(Fore.GREEN+Style.BRIGHT+"=====================\nWebEdge Analysis Done\n====================="+Style.RESET_ALL)
