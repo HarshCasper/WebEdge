@@ -62,7 +62,10 @@ def main():
         cli_output.printError(str(sys.exc_info()[0])+"\n"+str(sys.exc_info()[1]))
         cli_output.outputError()
         err = True
-    cli_output.endLoading()
+    try:
+        cli_output.endLoading()
+    except: #skipcq FLK-E722
+        sys.exit()
     try:
         if err is False:
             cli_output.outputJson(report)
