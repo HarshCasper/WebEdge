@@ -102,14 +102,12 @@ def outputJson(jsonValue):
     no = 0
     didBreak = False
     allAtOnce = False
-    fullList = ""
     if answers['c4'] is 'All at Once':
         allAtOnce = True
     for i in li:
         no = no + 1
         ivalue = str(i['value'])
         message = "Point - "+str(no)+"\n Label : "+i[k1]+"\n Current : "+ivalue;
-        fullList = fullList+message+"\n\n"
         if allAtOnce is False:
             qn = [
                 {
