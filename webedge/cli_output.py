@@ -4,6 +4,7 @@ from pyfiglet import Figlet
 from colorama import Fore, Style
 import json
 import clanimate
+import yaml
 
 jsonData = ['emptyData']
 loadingAnim = clanimate.Animator('scroll_text', 10, name = " => WebEdge Is Scrapping Your Website ", animation_frames="===============")
@@ -80,6 +81,12 @@ def outputJson(jsonValue):
             'message': 'Issues or Achievements?',
             'choices': ['Issues','Achievements'],
             'filter': filterc3
+        },
+        {
+            'type':'list',
+            'name':'c4',
+            'message':'See them all at once or one by one',
+            'choices':['All at Once', 'One by One'] 
         }
     ]
     answers = prompt(questions, style=style)
@@ -94,24 +101,33 @@ def outputJson(jsonValue):
 
     no = 0
     didBreak = False
+    allAtOnce = False
+    if answers['c4'] == 'All at Once':
+        allAtOnce = True
     for i in li:
         no = no + 1
         ivalue = str(i['value'])
         message = "Point - "+str(no)+"\n Label : "+i[k1]+"\n Current : "+ivalue;
-        qn = [
-            {
-                'type': 'confirm',
-                'name': 'forward',
-                'message': message+'\n Go to next?',
-                'default': True
-            }
-        ]
-        a = prompt(qn, style=style)
-        if a['forward'] is False:
-            didBreak = True
-            break;
+        if allAtOnce is False:
+            qn = [
+                {
+                    'type': 'confirm',
+                    'name': 'forward',
+                    'message': message+'\n Go to next?',
+                    'default': True
+                }
+            ]
+            a = prompt(qn, style=style)
+            if a['forward'] is False:
+                didBreak = True
+                break;
+        else:
+            if no%2 == 1:
+                print(Fore.BLUE+Style.BRIGHT+message+"\n"+Style.RESET_ALL)
+            else:
+                print(Fore.CYAN+Style.BRIGHT+message+"\n"+Style.RESET_ALL)
 
-    if didBreak is False:
+    if didBreak is False and allAtOnce is False:
         print('List Ended')
 
     retry = [
@@ -136,12 +152,12 @@ def outputJson(jsonValue):
         ]
         isFileSaved = prompt(saveFile, style = style)
         if isFileSaved['fileSave'] is True:
-            filename = str(jsonData['pages'][0]['url'] + '_webedge_analysis.txt')
+            filename = str(jsonData['pages'][0]['url'] + '_webedge_analysis.yaml')
             bad_chars = ['/', ':', '\\']
             for i in bad_chars:
                 filename = filename.replace(i,'')
-            with open(filename, 'w') as f:
-                f.write(jsonValue)
+            with open(filename, 'w+') as f:
+                f.write(yaml.dump(yaml.safe_load(json.dumps(json.loads(jsonValue)))))
             print(filename+" saved")
             
         print(Fore.GREEN+Style.BRIGHT+"=====================\nWebEdge Analysis Done\n====================="+Style.RESET_ALL)
