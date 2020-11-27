@@ -63,7 +63,11 @@ Let's run the tool now:
 ``` 
 Pass your Website to the tool and you will get a generated JSON highlighting all the achievements you have made in SEO Optimization or the warnings being displayed by the same 🔑
 
-We are now working on dockerizing the Package and publishing it on PyPi as well for easy accessibility 💻
+**Building using docker**
+```bash
+$ docker build -t 'app:webedge' .
+$ docker run app:webedge
+```
 
 ## 🛑 External Tools
 
