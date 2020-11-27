@@ -1,7 +1,9 @@
 from setuptools import setup, find_packages
 
-# specify requirements of your package here
-REQUIREMENTS = ['BeautifulSoup4', 'requests', 'soupsieve', 'urllib3', 'six']
+with open('requirements.txt') as f:
+    REQUIREMENTS = f.read().splitlines()
+with open('README.md', encoding='utf8') as f:
+    README = f.read()
 
 setup(
     name='WebEdge',
@@ -10,6 +12,8 @@ setup(
     author='MLH Fellowship Team 1',
     author_email='erbeusgriffincasper@gmail.com',
     description='Bringing Edge to your Web Performance',
+    long_description=README,
+    long_description_content_type='text/markdown',
     url='https://github.com/HarshCasper/WebEdge',
     install_requires=REQUIREMENTS,
     packages=find_packages(exclude = ["*.tests", "*.tests.*", "tests.*", "tests"]),
