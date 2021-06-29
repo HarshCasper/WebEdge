@@ -21,13 +21,10 @@ style = style_from_dict({
 
 def shouldc2(answers):
     check1 = answers['c1']
-    if check1 != 'site':
-        return True
-    return False
+    return check1 != 'site'
 
 def getm2(answers):
-    m2 = "Which "+str(answers['c1']+" you want to review?")
-    return m2
+    return "Which "+str(answers['c1']+" you want to review?")
 
 def getc2(answers):
     options = []
@@ -41,11 +38,9 @@ def getc2(answers):
     return options
 
 def filterc2(val):
-    m = 0
-    for i in jsonData['pages']:
+    for m, i in enumerate(jsonData['pages']):
         if i['url'] == val:
             return m;
-        m = m+1
 
 def filterc3(val):
     if val[0] == 'I':
@@ -56,9 +51,7 @@ def filterc3(val):
 def outputJson(jsonValue):
     global jsonData #skipcq PYL-W0603
     jsonData = json.loads(jsonValue)
-    options = []
-    for i in jsonData.keys():
-        options.append(i)
+    options = [i for i in jsonData.keys()]
     print()
     questions = [
         {
@@ -93,7 +86,7 @@ def outputJson(jsonValue):
     k1 = 'warning'
     if(answers['c3'] == 'achieved'):
         k1 = 'achievement'
-    
+
     if answers['c1'] == 'pages':
         li = jsonData[answers['c1']][answers['c2']][answers['c3']]
     else:
@@ -105,10 +98,10 @@ def outputJson(jsonValue):
     if answers['c4'] == 'All at Once':
         allAtOnce = True
     for i in li:
-        no = no + 1
+        no += 1
         ivalue = str(i['value'])
         message = "Point - "+str(no)+"\n Label : "+i[k1]+"\n Current : "+ivalue;
-        if allAtOnce is False:
+        if not allAtOnce:
             qn = [
                 {
                     'type': 'confirm',
@@ -121,13 +114,12 @@ def outputJson(jsonValue):
             if a['forward'] is False:
                 didBreak = True
                 break;
+        elif no%2 == 1:
+            print(Fore.BLUE+Style.BRIGHT+message+"\n"+Style.RESET_ALL)
         else:
-            if no%2 == 1:
-                print(Fore.BLUE+Style.BRIGHT+message+"\n"+Style.RESET_ALL)
-            else:
-                print(Fore.CYAN+Style.BRIGHT+message+"\n"+Style.RESET_ALL)
+            print(Fore.CYAN+Style.BRIGHT+message+"\n"+Style.RESET_ALL)
 
-    if didBreak is False and allAtOnce is False:
+    if not didBreak and not allAtOnce:
         print('List Ended')
 
     retry = [
@@ -159,7 +151,7 @@ def outputJson(jsonValue):
             with open(filename, 'w+') as f:
                 f.write(yaml.dump(yaml.safe_load(json.dumps(json.loads(jsonValue)))))
             print(filename+" saved")
-            
+
         print(Fore.GREEN+Style.BRIGHT+"=====================\nWebEdge Analysis Done\n====================="+Style.RESET_ALL)
 
 def outputName(name):

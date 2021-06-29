@@ -216,14 +216,7 @@ class Webpage:
 
             image_link = tag.find('img')
 
-            if image_link is not None:
-                if len(image_link.get('alt', '')) == 0:
-                    self.warn(WARNINGS["IMAGE_LINK_ALT_MISSING"], tag_href)
-                else:
-                    self.earned(BADGES["IMAGE_LINK_ALT"],
-                                image_link.get('alt', ''))
-
-            else:
+            if image_link is None:
                 if len(tag.get('title', '')) == 0 and len(tag_text) == 0:
                     self.warn(WARNINGS["ANCHOR_TEXT_MISSING"], tag_href)
                 elif len(tag_text) < 3:
@@ -235,21 +228,30 @@ class Webpage:
                        for vague_words in ['click here', 'page', 'article']):
                     self.warn(WARNINGS["ANCHOR_TEXT_TOO_GENERIC"], tag_text)
 
+            elif len(image_link.get('alt', '')) == 0:
+                self.warn(WARNINGS["IMAGE_LINK_ALT_MISSING"], tag_href)
+            else:
+                self.earned(BADGES["IMAGE_LINK_ALT"],
+                            image_link.get('alt', ''))
+
             if len(tag_href) > 100:
                 self.warn(WARNINGS["ANCHOR_HREF_TOO_LONG"], tag_href)
 
             if tag_text == tag_href:
                 self.warn(WARNINGS["ANCHOR_HREF_EQUALS_TEXT"], tag_text)
 
-            if len(parse.urlparse(tag_href).netloc) > 0:
-                if self.netloc not in tag_href:
-                    if not(any(social_site in tag_href
-                               for social_site in SOCIAL_WEBSITES)):
-                        if tag.get('rel') is None \
-                                or 'nofollow' not in tag.get('rel'):
-                            self.warn(WARNINGS["ANCHOR_NO_FOLLOW"], tag_href)
-                        else:
-                            self.earned(BADGES["ANCHOR_NO_FOLLOW"], tag_href)
+            if (
+                len(parse.urlparse(tag_href).netloc) > 0
+                and self.netloc not in tag_href
+                and all(
+                    social_site not in tag_href for social_site in SOCIAL_WEBSITES
+                )
+            ):
+                if tag.get('rel') is None \
+                        or 'nofollow' not in tag.get('rel'):
+                    self.warn(WARNINGS["ANCHOR_NO_FOLLOW"], tag_href)
+                else:
+                    self.earned(BADGES["ANCHOR_NO_FOLLOW"], tag_href)
 
             if not tag_href.startswith("mailto:"):
                 referenced_href = tag_href
@@ -282,10 +284,10 @@ class Webpage:
                 if len(image.get('alt', '')) == 0:
                     self.warn(WARNINGS["IMAGE_ALT_MISSING"], str(image))
 
-                if len(parse.urlparse(src).netloc) == 0 \
-                   or self.netloc in src:
-                    if len(src) > 15:
-                        self.warn(WARNINGS["IMAGE_SRC_TOO_LONG"], src)
+                if (
+                    len(parse.urlparse(src).netloc) == 0 or self.netloc in src
+                ) and len(src) > 15:
+                    self.warn(WARNINGS["IMAGE_SRC_TOO_LONG"], src)
                 if len(image.get('alt', '')) > 40:
                     self.warn(WARNINGS["IMAGE_ALT_TOO_LONG"],
                               image.get('alt', ''))
@@ -340,10 +342,7 @@ class Webpage:
             earned/warn: Returns if Wordcount fall in the prerequistie limit
         """
         page_content = self._get_keywords(doc)
-        count = 0
-        for word, freq in page_content:
-            count += freq
-
+        count = sum(freq for word, freq in page_content)
         if count < 2416:
             self.warn(WARNINGS["WORDCOUNT_TOO_SHORT"],
                       u"You have {0} words.".format(count))
@@ -367,7 +366,7 @@ class Webpage:
             }
             keywords_result.append(kw)
 
-        result = {
+        return {
             "url": self.url,
             "keywords": keywords_result,
             "issues": self.issues,
@@ -375,8 +374,6 @@ class Webpage:
             "title": self.title,
             "description": self.description
         }
-
-        return result
 
     def warn(self, message, value=None):
         """
@@ -463,10 +460,7 @@ class Webpage:
         """
         keywords = {}
         text_elements = filter(self.visible_tags, doc.findAll(text=True))
-        page_text = ''
-        for element in text_elements:
-            page_text += element.lower() + ' '
-
+        page_text = ''.join(element.lower() + ' ' for element in text_elements)
         tokens = self.tokenize(page_text)
         keywords = self.grouped(tokens)
 

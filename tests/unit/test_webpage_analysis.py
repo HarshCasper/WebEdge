@@ -15,8 +15,7 @@ class WebpageTests(testtools.TestCase):
         self.descriptions = {}
 
     def soup_file(self, html):
-        soup = bs4.BeautifulSoup(html, "html.parser")
-        return soup
+        return bs4.BeautifulSoup(html, "html.parser")
 
     @ddt.file_data('data_html_positive.json')
     def test_analyze_positive(self, data):
@@ -87,7 +86,7 @@ class WebpageTests(testtools.TestCase):
         html = page[0]
         expected_error = page[1]
         report = {"pages": []}
-        for i in range(0, 2):
+        for i in range(2):
             self.wp = webpage_analysis.Webpage(
                 "https://harshcasper.github.io/page{0}.html".format(i),
                 html,

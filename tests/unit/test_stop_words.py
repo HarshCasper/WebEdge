@@ -5,7 +5,6 @@ class StopWordsTests(testtools.TestCase):
 
     def setUp(self):
         super(StopWordsTests, self).setUp()
-        pass
 
     def test_stopwords(self):
         words = stop_words.ENGLISH_STOP_WORDS
