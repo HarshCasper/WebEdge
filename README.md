@@ -19,7 +19,8 @@ Developed with <span style="color: #8b0000;">&hearts;</span> by your friends at 
     <img src="https://img.shields.io/badge/Version-1.0.0-brightgreen" alt="version 1.0.0"/>
     <img src="https://img.shields.io/badge/license-MIT-brightgreen" alt="license MIT"/>
     <img src="https://img.shields.io/badge/Author-MLH%20Fellowship%20Team--1-yellow" alt="MLH Fellowship Team 1"/>
-    <img src="https://travis-ci.org/HarshCasper/WebEdge.svg?branch=main" alt="Travis-Build"/>
+    <img src="https://github.com/harshcasper/webedge/actions/workflows/ci.yml/badge.svg" alt="GitHub-Actions-Build"/>
+	<img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code Format: Black">
 </p>
 
 ## 💥 Introduction
@@ -38,35 +39,40 @@ With this Package, we aim to have a unified tool to improve your SEO Ranking wit
 
 ## 🛠️ Usage
 
-That's pretty easy. To ensure that you are able to install everything properly, we would recommend you to have <b>Git</b>, <b>Python</b> and <b>pip</b> installed. You should ideally work with a Virtual Environment, such as `venv` or the `virtualenv` module, to get the best out of the package. 
+That's pretty easy. To ensure that you are able to install everything properly, we would recommend you to have <b>Git</b>, <b>Python</b> and <b>pip</b> installed. You should ideally work with a Virtual Environment, such as `venv` or the `virtualenv` module, to get the best out of the package.
 
 We will first start with setting up the Local Project Environment:
-```BASH
-$ git clone https://github.com/HarshCasper/WebEdge.git
-$ cd WebEdge
-$ virtualenv venv
-$ source venv/bin/activate
-(venv) $ pip3 install -r requirements.txt
-(venv) $ python3 setup.py install
+
+```sh
+git clone https://github.com/HarshCasper/WebEdge.git
+cd WebEdge
+virtualenv venv
+source venv/bin/activate
+pip3 install -r requirements.txt
+python3 setup.py install
 ```
+
 Once you run the Commands and get everything fine, we are all set to run the tool ✔️
 
-Let's run the tool now: 
-```BASH
-(venv) $ webedge -d http://[DOMAIN_NAME]/
+Let's run the tool now:
+
+```sh
+webedge -d http://[DOMAIN_NAME]/
 ```
 
-* For example if your domain is ajitesh13.github.io then your command should be (you can use `http` or `https` in the command according to your needs): 
+* For example if your domain is ajitesh13.github.io then your command should be (you can use `http` or `https` in the command according to your needs):
 
-```BASH
-(venv) $ webedge -d https://ajitesh13.github.io/
-``` 
+```sh
+webedge -d https://ajitesh13.github.io/
+```
+
 Pass your Website to the tool and you will get a generated JSON highlighting all the achievements you have made in SEO Optimization or the warnings being displayed by the same 🔑
 
 **Building using docker**
-```bash
-$ docker build -t 'app:webedge' .
-$ docker run app:webedge
+
+```sh
+docker build -t 'app:webedge' .
+docker run app:webedge
 ```
 
 ## 🛑 External Tools
@@ -75,7 +81,7 @@ The Python Files have been linted using [flake8](https://flake8.pycqa.org/) whic
 
 We are also making use of DeepSource Analysis, which can be viewed [here](http://deepsource.io/gh/HarshCasper/webEdge). This allows us to identify potential bugs and anti-patterns with each push to the repository, and potentially fix it 🐛
 
-For setting up CI/CD, we are making use of [Travis CI](http://travis-ci.org/). With a simple configuration set-up, we were able to test each build for specific issues, which can be viewed [here](https://travis-ci.org/github/HarshCasper/WebEdge) 🌱
+For setting up CI/CD, we are making use of [GitHub Actions](https://github.com/features/actions). With a simple configuration set-up, we were able to test each build for specific issues, which can be viewed [here](.github/workflows/ci.yml) 🌱
 
 ## 📜 LICENSE
 
