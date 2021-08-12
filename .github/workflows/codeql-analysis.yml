@@ -1,0 +1,30 @@
+name: "CodeQL Analysis - Python"
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  CodeQL-Build:
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ['python']
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        languages: python
+        setup-python-dependencies: false
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1

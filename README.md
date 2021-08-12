@@ -108,7 +108,7 @@ docker run app:webedge
 
 The Python Files have been linted using [flake8](https://flake8.pycqa.org/) which automatically suggests linting errors and issues with formatting and styling. You can run the `flake8` command with the given configuration in the Project 🍀
 
-We are also making use of DeepSource Analysis, which can be viewed [here](http://deepsource.io/gh/HarshCasper/webEdge). This allows us to identify potential bugs and anti-patterns with each push to the repository, and potentially fix it 🐛
+We are also making use of CodeQL Analysis, which can be viewed [here](.github/workflows/codeql-analysis.yml). This allows us to identify potential bugs and anti-patterns with each push to the repository, and potentially fix it 🐛
 
 For setting up CI/CD, we are making use of [GitHub Actions](https://github.com/features/actions). With a simple configuration set-up, we were able to test each build for specific issues, which can be viewed [here](.github/workflows/ci.yml) 🌱
 
