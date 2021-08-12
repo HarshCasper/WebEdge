@@ -16,10 +16,12 @@
 Developed with <span style="color: #8b0000;">&hearts;</span> by your friends at <a href="https://github.com/MLH-Fellowship">MLH Fellowship</a> Team-1.
 </p>
 <p align="center">
-    <img src="https://img.shields.io/badge/Version-1.0.0-brightgreen" alt="version 1.0.0"/>
+    <img src="https://img.shields.io/badge/Version-1.0.2-brightgreen" alt="version 1.0.2"/>
     <img src="https://img.shields.io/badge/license-MIT-brightgreen" alt="license MIT"/>
     <img src="https://img.shields.io/badge/Author-MLH%20Fellowship%20Team--1-yellow" alt="MLH Fellowship Team 1"/>
-    <img src="https://travis-ci.org/HarshCasper/WebEdge.svg?branch=main" alt="Travis-Build"/>
+    <img src="https://github.com/harshcasper/webedge/actions/workflows/ci.yml/badge.svg" alt="GitHub-Actions-Build"/>
+	<img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code Format: Black">
+	<a href="https://badge.fury.io/py/WebEdge"><img src="https://badge.fury.io/py/WebEdge.svg" alt="PyPI version" height="18"></a>
 </p>
 
 ## 💥 Introduction
@@ -36,46 +38,79 @@ As Frontend Developers, Performance plays an important part for Ranking and User
 
 With this Package, we aim to have a unified tool to improve your SEO Ranking with real-time optimizations, that you can fix as a Developer. Sounds interesting? Well it is 🔥
 
-## 🛠️ Usage
+## 🚀 Installation
 
-That's pretty easy. To ensure that you are able to install everything properly, we would recommend you to have <b>Git</b>, <b>Python</b> and <b>pip</b> installed. You should ideally work with a Virtual Environment, such as `venv` or the `virtualenv` module, to get the best out of the package. 
+To install WebEdge, we can use `pip`:
+
+```sh
+pip3 install webedge
+```
+
+The standard Python package will setup the CLI and you can use the same for local testing and analysis of your website and webpages.
+
+```sh
+ _       __     __    ______    __         
+| |     / /__  / /_  / ____/___/ /___ ____ 
+| | /| / / _ \/ __ \/ __/ / __  / __ `/ _ \
+| |/ |/ /  __/ /_/ / /___/ /_/ / /_/ /  __/
+|__/|__/\___/_.___/_____/\__,_/\__, /\___/ 
+                              /____/       
+
+
+usage: webedge [-h] -d DOMAIN [-s SITEMAP] [-p PAGE]
+```
+
+## 🛠️ Local development
+
+That's pretty easy. To ensure that you are able to install everything properly, we would recommend you to have <b>Git</b>, <b>Python</b> and <b>pip</b> installed. You should ideally work with a Virtual Environment, such as `venv` or the `virtualenv` module, to get the best out of the package.
 
 We will first start with setting up the Local Project Environment:
-```BASH
-$ git clone https://github.com/HarshCasper/WebEdge.git
-$ cd WebEdge
-$ virtualenv venv
-$ source venv/bin/activate
-(venv) $ pip3 install -r requirements.txt
-(venv) $ python3 setup.py install
+
+```sh
+git clone https://github.com/HarshCasper/WebEdge.git
+cd WebEdge
+virtualenv venv
+source venv/bin/activate
+pip3 install -r requirements.txt
+python3 setup.py install
 ```
+
 Once you run the Commands and get everything fine, we are all set to run the tool ✔️
 
-Let's run the tool now: 
-```BASH
-(venv) $ webedge -d http://[DOMAIN_NAME]/
+Let's run the tool now:
+
+```sh
+webedge -d http://[DOMAIN_NAME]/
 ```
 
-* For example if your domain is ajitesh13.github.io then your command should be (you can use `http` or `https` in the command according to your needs): 
+* For example if your domain is `https://fastcoder.netlify.app/` then your command should be (you can use `http` or `https` in the command according to your needs):
 
-```BASH
-(venv) $ webedge -d https://ajitesh13.github.io/
-``` 
+```sh
+webedge -d https://fastcoder.netlify.app/
+```
+
 Pass your Website to the tool and you will get a generated JSON highlighting all the achievements you have made in SEO Optimization or the warnings being displayed by the same 🔑
 
-**Building using docker**
-```bash
-$ docker build -t 'app:webedge' .
-$ docker run app:webedge
+To run the tests, simply push:
+
+```sh
+nosetests --with-coverage --cover-package=webedge tests.unit
+```
+
+To build with Docker, simply push:
+
+```sh
+docker build -t 'app:webedge' .
+docker run app:webedge
 ```
 
 ## 🛑 External Tools
 
 The Python Files have been linted using [flake8](https://flake8.pycqa.org/) which automatically suggests linting errors and issues with formatting and styling. You can run the `flake8` command with the given configuration in the Project 🍀
 
-We are also making use of DeepSource Analysis, which can be viewed [here](http://deepsource.io/gh/HarshCasper/webEdge). This allows us to identify potential bugs and anti-patterns with each push to the repository, and potentially fix it 🐛
+We are also making use of CodeQL Analysis, which can be viewed [here](.github/workflows/codeql-analysis.yml). This allows us to identify potential bugs and anti-patterns with each push to the repository, and potentially fix it 🐛
 
-For setting up CI/CD, we are making use of [Travis CI](http://travis-ci.org/). With a simple configuration set-up, we were able to test each build for specific issues, which can be viewed [here](https://travis-ci.org/github/HarshCasper/WebEdge) 🌱
+For setting up CI/CD, we are making use of [GitHub Actions](https://github.com/features/actions). With a simple configuration set-up, we were able to test each build for specific issues, which can be viewed [here](.github/workflows/ci.yml) 🌱
 
 ## 📜 LICENSE
 

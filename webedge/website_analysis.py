@@ -5,8 +5,10 @@ from webedge.warnings import BADGES
 from webedge.warnings import WARNINGS
 from webedge import webpage_analysis
 
+
 class Spider:
     report = {"pages": []}
+
     def __init__(self, site, sitemap=None, page=None):
         parsed_url = parse.urlparse(site)
 
@@ -42,11 +44,11 @@ class Spider:
         locations = []
 
         soup = Soup(sitemap, "html.parser")
-        urls = soup.findAll('url')
+        urls = soup.findAll("url")
 
         if len(urls) > 0:
             for u in urls:
-                loc = u.find('loc').string
+                loc = u.find("loc").string
                 locations.append(loc)
 
         return locations
@@ -79,23 +81,13 @@ class Spider:
         """
         Value lost through improper SEO Optimization on the Website.
         """
-        self.issues.append(
-            {
-                "warning": message,
-                "value": value
-            }
-        )
+        self.issues.append({"warning": message, "value": value})
 
     def earned(self, message, value=None):
         """
         Value earned through proper SEO Optimization on the Website.
         """
-        self.achieved.append(
-            {
-                "achievement": message,
-                "value": value
-            }
-        )
+        self.achieved.append({"achievement": message, "value": value})
 
     def crawl(self):
         """
@@ -107,18 +99,20 @@ class Spider:
             resp = requests.get(page_url)
             if resp.status_code == requests.codes.ok:
                 html = webpage_analysis.Webpage(
-                    page_url, resp.content, self.titles, self.descriptions)
+                    page_url, resp.content, self.titles, self.descriptions
+                )
                 page_report = html.report()
-                self.report['pages'].append(page_report)
+                self.report["pages"].append(page_report)
                 self.pages_crawled.append(page_url.strip().lower())
                 # print("Crawled {0} Pages of {1}: {2}".format(
                 #     len(self.pages_crawled), len(self.pages_to_crawl), page_url))
             elif resp.status_code == requests.codes.not_found:
                 self.warn(WARNINGS["BROKEN_LINK"], page_url)
             else:
-                self.warn(WARNINGS["SERVER_ERROR"],
-                          "HTTP{0} received for {1}".format(
-                              resp.status_code, page_url))
+                self.warn(
+                    WARNINGS["SERVER_ERROR"],
+                    "HTTP{0} received for {1}".format(resp.status_code, page_url),
+                )
         self.report["site"] = {}
         self.report["site"]["issues"] = self.issues
         self.report["site"]["achieved"] = self.achieved

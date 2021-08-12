@@ -21,7 +21,7 @@ class WebpageTests(testtools.TestCase):
     @ddt.file_data('data_html_positive.json')
     def test_analyze_positive(self, data):
         html = data[0]
-        badge = data[1]
+        # badge = data[1]
         self.wp = webpage_analysis.Webpage(
             "https://harshcasper.github.io",
             html,

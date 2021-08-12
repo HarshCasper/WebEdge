@@ -4,6 +4,7 @@ from webedge import website_analysis
 from webedge import cli_output
 import sys
 
+
 def create_parser():
     """
         Creates a Parser to pass Arguement Parser.
@@ -11,22 +12,25 @@ def create_parser():
             parser: Arguement Parser through which the User can pass the Website
         """
     parser = argparse.ArgumentParser(
-        description='Search and Analyze the Search Engine Optimization of a Website'
+        description="Search and Analyze the Search Engine Optimization of a Website"
     )
     parser.add_argument(
-        '-d', '--domain', type=str, required=True,
-        help='Share the Website Domain to analyze'
+        "-d",
+        "--domain",
+        type=str,
+        required=True,
+        help="Share the Website Domain to analyze",
     )
     parser.add_argument(
-        '-s', '--sitemap', type=str, required=False,
-        help='Sitemap.xml file to use'
+        "-s", "--sitemap", type=str, required=False, help="Sitemap.xml file to use"
     )
 
     parser.add_argument(
-        '-p', '--page', type=str, required=False,
-        help='Single Page to analyze'
+        "-p", "--page", type=str, required=False, help="Single Page to analyze"
     )
     return parser
+
+
 def analyze(domain, sitemap, page):
     """
         Analyzes the Domain/Sitemap/Page passed by the User.
@@ -39,8 +43,9 @@ def analyze(domain, sitemap, page):
         """
     spider = website_analysis.Spider(domain, sitemap, page)
     raw_report = spider.crawl()
-    report = json.dumps(raw_report, indent=4, separators=(',', ': '))
+    report = json.dumps(raw_report, indent=4, separators=(",", ": "))
     return report
+
 
 def main():
     """
@@ -55,25 +60,26 @@ def main():
     cli_output.startLoading()
     try:
         report = analyze(args.domain, args.sitemap, args.page)
-    except (SystemExit,KeyError) :
+    except (SystemExit, KeyError):
         cli_output.exitError()
         err = True
-    except: #skipcq FLK-E722
-        cli_output.printError(str(sys.exc_info()[0])+"\n"+str(sys.exc_info()[1]))
+    except:  # skipcq FLK-E722
+        cli_output.printError(str(sys.exc_info()[0]) + "\n" + str(sys.exc_info()[1]))
         cli_output.outputError()
         err = True
     try:
         cli_output.endLoading()
-    except: #skipcq FLK-E722
+    except:  # skipcq FLK-E722
         sys.exit()
     try:
         if err is False:
             cli_output.outputJson(report)
-    except (SystemExit,KeyError) :
+    except (SystemExit, KeyError):
         cli_output.exitError()
-    except: #skipcq FLK-E722
-        cli_output.printError(str(sys.exc_info()[0])+"\n"+str(sys.exc_info()[1]))
+    except:  # skipcq FLK-E722
+        cli_output.printError(str(sys.exc_info()[0]) + "\n" + str(sys.exc_info()[1]))
         cli_output.outputError()
+
 
 if __name__ == "__main__":
     main()
