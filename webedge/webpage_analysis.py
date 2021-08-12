@@ -9,7 +9,7 @@ from webedge.social_websites import SOCIAL_WEBSITES
 from AnalyseSentiment.AnalyseSentiment import AnalyseSentiment
 
 # REGEX to match the Words on the Markup Document
-TOKEN_REGEX = re.compile(r'(?u)\b\w\w+\b')
+TOKEN_REGEX = re.compile(r"(?u)\b\w\w+\b")
 
 
 class Webpage:
@@ -34,9 +34,9 @@ class Webpage:
         self.website_descriptions = website_descriptions
 
     def report(self):
-        '''
+        """
         Analyzes and verified the Optimizations on the Page.
-        '''
+        """
         soup = bs4.BeautifulSoup(self.html, "html.parser")
 
         # per page analysis
@@ -74,17 +74,16 @@ class Webpage:
         else:
             self.earned(BADGES["TITLE_LENGTH"], self.title)
 
-        if any(vague_words in t.lower()
-               for vague_words in ['untitled', 'page']):
+        if any(vague_words in t.lower() for vague_words in ["untitled", "page"]):
             self.warn(WARNINGS["TITLE_TOO_GENERIC"], self.title)
         else:
             self.earned(BADGES["TITLE_INFORMATIVE"], self.title)
-        
+
         sentimentobj = AnalyseSentiment()
         sentimentdata = sentimentobj.Analyse(self.title)
-        if sentimentdata.get('overall_sentiment') == 'Negative':
+        if sentimentdata.get("overall_sentiment") == "Negative":
             self.warn(WARNINGS["NEGATIVE_TITLE"], self.title)
-        elif sentimentdata.get('overall_sentiment') == 'Neutral':
+        elif sentimentdata.get("overall_sentiment") == "Neutral":
             self.earned(BADGES["NEUTRAL_TITLE"], self.title)
         else:
             self.earned(BADGES["POSITIVE_TITLE"], self.title)
@@ -92,15 +91,15 @@ class Webpage:
         title_words = self.grouped(self.tokenize(t))
         for word, count in title_words:
             if count > 3:
-                self.warn(
-                    WARNINGS["TITLE_KEYWORD_STUFFED"],
-                    self.title)
+                self.warn(WARNINGS["TITLE_KEYWORD_STUFFED"], self.title)
 
         if t in self.website_titles:
             self.warn(
                 WARNINGS["TITLE_DUPLICATED"],
                 u'"{0}" previously used on pages: {1}'.format(
-                    t, self.website_titles[t]))
+                    t, self.website_titles[t]
+                ),
+            )
         else:
             self.earned(BADGES["TITLE_UNIQUE"], self.title)
             self.website_titles[t] = self.url
@@ -113,11 +112,11 @@ class Webpage:
         Returns:
             earned/warn: Returns if Description fall among the prerequisties set
         """
-        desc = doc.findAll('meta', attrs={'name': 'description'})
+        desc = doc.findAll("meta", attrs={"name": "description"})
 
         self.description = d = u""
         if len(desc) > 0:
-            self.description = d = desc[0].get('content', '')
+            self.description = d = desc[0].get("content", "")
 
         length = len(d)
         if length == 0:
@@ -130,18 +129,16 @@ class Webpage:
         else:
             self.earned(BADGES["DESCRIPTION_LENGTH"], self.description)
 
-        if any(vague_words in d.lower()
-               for vague_words in ['web page', 'page about']
-               ):
+        if any(vague_words in d.lower() for vague_words in ["web page", "page about"]):
             self.warn(WARNINGS["DESCRIPTION_TOO_GENERIC"], self.description)
         else:
             self.earned(BADGES["DESCRIPTION_INFORMATIVE"], self.description)
 
         sentimentobj = AnalyseSentiment()
         sentimentdata = sentimentobj.Analyse(self.title)
-        if sentimentdata.get('overall_sentiment') == 'Negative':
+        if sentimentdata.get("overall_sentiment") == "Negative":
             self.warn(WARNINGS["NEGATIVE_DESCRIPTION"], self.description)
-        elif sentimentdata.get('overall_sentiment') == 'Neutral':
+        elif sentimentdata.get("overall_sentiment") == "Neutral":
             self.earned(BADGES["NEUTRAL_DESCRIPTION"], self.description)
         else:
             self.earned(BADGES["POSITIVE_DESCRIPTION"], self.description)
@@ -149,13 +146,15 @@ class Webpage:
         desc_words = self.grouped(self.tokenize(d))
         for word, count in desc_words:
             if count > 3:
-                self.warn(
-                    WARNINGS["DESCRIPTION_KEYWORD_STUFFED"], self.description)
+                self.warn(WARNINGS["DESCRIPTION_KEYWORD_STUFFED"], self.description)
 
         if d in self.website_descriptions:
-            self.warn(WARNINGS["DESCRIPTION_DUPLICATED"],
-                      u'"{0}" previously used on pages: {1}'.format(
-                d, self.website_descriptions[d]))
+            self.warn(
+                WARNINGS["DESCRIPTION_DUPLICATED"],
+                u'"{0}" previously used on pages: {1}'.format(
+                    d, self.website_descriptions[d]
+                ),
+            )
         else:
             self.website_descriptions[d] = self.url
 
@@ -174,7 +173,7 @@ class Webpage:
         if len(self.url) > 100:
             self.warn(WARNINGS["URL_TOO_LONG"], self.url)
 
-        if any(vague_words in self.url.lower() for vague_words in ['page']):
+        if any(vague_words in self.url.lower() for vague_words in ["page"]):
             self.warn(WARNINGS["URL_TOO_GENERIC"], self.url)
 
         url_words = self.grouped(self.tokenize(path[-1]))
@@ -187,7 +186,7 @@ class Webpage:
 
         canonical = doc.find("link", rel="canonical")
         if canonical:
-            canonical_url = canonical['href']
+            canonical_url = canonical["href"]
 
             if canonical_url != self.url:
                 self.warn(WARNINGS["URL_NOT_CANONICAL"], canonical_url)
@@ -207,32 +206,33 @@ class Webpage:
         Returns:
             earned/warn: Returns if Anchors are defined and the prerequisties are set.
         """
-        anchors = doc.find_all('a', href=True)
+        anchors = doc.find_all("a", href=True)
         verified_pages = []
 
         for tag in anchors:
-            tag_href = tag['href']
+            tag_href = tag["href"]
             tag_text = tag.text.lower().strip()
 
-            image_link = tag.find('img')
+            image_link = tag.find("img")
 
             if image_link is not None:
-                if len(image_link.get('alt', '')) == 0:
+                if len(image_link.get("alt", "")) == 0:
                     self.warn(WARNINGS["IMAGE_LINK_ALT_MISSING"], tag_href)
                 else:
-                    self.earned(BADGES["IMAGE_LINK_ALT"],
-                                image_link.get('alt', ''))
+                    self.earned(BADGES["IMAGE_LINK_ALT"], image_link.get("alt", ""))
 
             else:
-                if len(tag.get('title', '')) == 0 and len(tag_text) == 0:
+                if len(tag.get("title", "")) == 0 and len(tag_text) == 0:
                     self.warn(WARNINGS["ANCHOR_TEXT_MISSING"], tag_href)
                 elif len(tag_text) < 3:
                     self.warn(WARNINGS["ANCHOR_TEXT_TOO_SHORT"], tag_text)
                 elif len(tag_text) > 100:
                     self.warn(WARNINGS["ANCHOR_TEXT_TOO_LONG"], tag_text)
 
-                if any(vague_words in tag_text.lower()
-                       for vague_words in ['click here', 'page', 'article']):
+                if any(
+                    vague_words in tag_text.lower()
+                    for vague_words in ["click here", "page", "article"]
+                ):
                     self.warn(WARNINGS["ANCHOR_TEXT_TOO_GENERIC"], tag_text)
 
             if len(tag_href) > 100:
@@ -243,10 +243,10 @@ class Webpage:
 
             if len(parse.urlparse(tag_href).netloc) > 0:
                 if self.netloc not in tag_href:
-                    if not(any(social_site in tag_href
-                               for social_site in SOCIAL_WEBSITES)):
-                        if tag.get('rel') is None \
-                                or 'nofollow' not in tag.get('rel'):
+                    if not (
+                        any(social_site in tag_href for social_site in SOCIAL_WEBSITES)
+                    ):
+                        if tag.get("rel") is None or "nofollow" not in tag.get("rel"):
                             self.warn(WARNINGS["ANCHOR_NO_FOLLOW"], tag_href)
                         else:
                             self.earned(BADGES["ANCHOR_NO_FOLLOW"], tag_href)
@@ -271,24 +271,22 @@ class Webpage:
         Returns:
             earned/warn: Returns if Images Alt and Title tag fall in the prerequisties set
         """
-        images = doc.find_all('img')
+        images = doc.find_all("img")
 
         for image in images:
-            src = image.get('src', image.get('data-src', ''))
+            src = image.get("src", image.get("data-src", ""))
 
             if len(src) == 0:
                 self.warn(WARNINGS["IMAGE_SRC_MISSING"], str(image))
             else:
-                if len(image.get('alt', '')) == 0:
+                if len(image.get("alt", "")) == 0:
                     self.warn(WARNINGS["IMAGE_ALT_MISSING"], str(image))
 
-                if len(parse.urlparse(src).netloc) == 0 \
-                   or self.netloc in src:
+                if len(parse.urlparse(src).netloc) == 0 or self.netloc in src:
                     if len(src) > 15:
                         self.warn(WARNINGS["IMAGE_SRC_TOO_LONG"], src)
-                if len(image.get('alt', '')) > 40:
-                    self.warn(WARNINGS["IMAGE_ALT_TOO_LONG"],
-                              image.get('alt', ''))
+                if len(image.get("alt", "")) > 40:
+                    self.warn(WARNINGS["IMAGE_ALT_TOO_LONG"], image.get("alt", ""))
 
     def _analyze_headings(self, doc):
         """
@@ -298,7 +296,7 @@ class Webpage:
         Returns:
             earned/warn: Returns if Headings fall in the prerequisties set
         """
-        h1tags = doc.find_all('h1')
+        h1tags = doc.find_all("h1")
 
         self.headers = []
         for h in h1tags:
@@ -322,7 +320,7 @@ class Webpage:
         Returns:
             earned/warn: Returns if Keyword Count fall in the prerequisties set
         """
-        kw_meta = doc.findAll('meta', attrs={'name': 'keywords'})
+        kw_meta = doc.findAll("meta", attrs={"name": "keywords"})
 
         if len(kw_meta) > 0:
             self.warn(WARNINGS["KEYWORDS_META"], kw_meta)
@@ -345,16 +343,16 @@ class Webpage:
             count += freq
 
         if count < 2416:
-            self.warn(WARNINGS["WORDCOUNT_TOO_SHORT"],
-                      u"You have {0} words.".format(count))
+            self.warn(
+                WARNINGS["WORDCOUNT_TOO_SHORT"], u"You have {0} words.".format(count)
+            )
         else:
-            self.earned(BADGES["WORDCOUNT"],
-                        u"You have {0} words.".format(count))
+            self.earned(BADGES["WORDCOUNT"], u"You have {0} words.".format(count))
 
     def _render(self):
-        '''
+        """
         Renders the Result of SEO Analysis
-        '''
+        """
         keywords_result = []
 
         for word, count in self.keywords:
@@ -363,7 +361,7 @@ class Webpage:
                 "frequency": count,
                 "in_title": word in self.title.lower(),
                 "in_description": word in self.description.lower(),
-                "in_header": word in self.headers
+                "in_header": word in self.headers,
             }
             keywords_result.append(kw)
 
@@ -373,7 +371,7 @@ class Webpage:
             "issues": self.issues,
             "achieved": self.achieved,
             "title": self.title,
-            "description": self.description
+            "description": self.description,
         }
 
         return result
@@ -382,23 +380,13 @@ class Webpage:
         """
         Value lost through improper SEO Optimization on the Website.
         """
-        self.issues.append(
-            {
-                "warning": message,
-                "value": value
-            }
-        )
+        self.issues.append({"warning": message, "value": value})
 
     def earned(self, message, value=None):
         """
         Value earned through proper SEO Optimization on the Website.
         """
-        self.achieved.append(
-            {
-                "achievement": message,
-                "value": value
-            }
-        )
+        self.achieved.append({"achievement": message, "value": value})
 
     def visible_tags(self, element):
         """
@@ -409,8 +397,13 @@ class Webpage:
             boolean: True/False depending on the availability of the Elements
         """
         non_visible_elements = [
-            'style', 'script', '[document]',
-            'head', 'title', 'meta']
+            "style",
+            "script",
+            "[document]",
+            "head",
+            "title",
+            "meta",
+        ]
 
         if element.parent.name in non_visible_elements:
             return False
@@ -423,7 +416,7 @@ class Webpage:
         """
         Tokenizes the Raw Text passed to it by passing through Regex and removing Stop Words.
         Args:
-            rawtext: Markup Text 
+            rawtext: Markup Text
         Returns:
             word: Tokenized Text after removing Stop Words and passing through Regex
         """
@@ -448,8 +441,7 @@ class Webpage:
             else:
                 grouped_list[word] = 1
 
-        grouped_list = sorted(grouped_list.items(),
-                              key=lambda x: x[1], reverse=True)
+        grouped_list = sorted(grouped_list.items(), key=lambda x: x[1], reverse=True)
         return grouped_list
 
     def _get_keywords(self, doc):
@@ -463,9 +455,9 @@ class Webpage:
         """
         keywords = {}
         text_elements = filter(self.visible_tags, doc.findAll(text=True))
-        page_text = ''
+        page_text = ""
         for element in text_elements:
-            page_text += element.lower() + ' '
+            page_text += element.lower() + " "
 
         tokens = self.tokenize(page_text)
         keywords = self.grouped(tokens)

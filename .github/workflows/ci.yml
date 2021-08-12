@@ -40,3 +40,7 @@ jobs:
         run: |
           pip3 install -r tests/test-requirements.txt
           nosetests --with-coverage --cover-package=webedge tests.unit
+      - name: Lint with flake8
+        run: |
+          pip3 install flake8
+          flake8 .

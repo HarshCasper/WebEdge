@@ -633,5 +633,5 @@ ENGLISH_STOP_WORDS = [
     "yourself",
     "yourselves",
     "you've",
-    "zero"
+    "zero",
 ]

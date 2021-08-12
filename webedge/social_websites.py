@@ -4,7 +4,7 @@ SOCIAL_WEBSITES = [
     "plus.google.com",
     "www.instagram.com",
     "www.pinterest.com",
-    "apple.com", 
+    "apple.com",
     "youtube.com",
     "www.google.com",
     "play.google.com",
@@ -32,5 +32,5 @@ SOCIAL_WEBSITES = [
     "calendar.google.com",
     "outlook.com",
     "canva.com",
-    "ieee.org"
+    "ieee.org",
 ]

@@ -1,6 +1,7 @@
 import testtools
 from webedge import stop_words
 
+
 class StopWordsTests(testtools.TestCase):
 
     def setUp(self):
