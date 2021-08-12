@@ -113,7 +113,5 @@ class Spider:
                     WARNINGS["SERVER_ERROR"],
                     "HTTP{0} received for {1}".format(resp.status_code, page_url),
                 )
-        self.report["site"] = {}
-        self.report["site"]["issues"] = self.issues
-        self.report["site"]["achieved"] = self.achieved
+        self.report["site"] = {'issues': self.issues, 'achieved': self.achieved}
         return self.report

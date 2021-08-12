@@ -43,8 +43,7 @@ def analyze(domain, sitemap, page):
         """
     spider = website_analysis.Spider(domain, sitemap, page)
     raw_report = spider.crawl()
-    report = json.dumps(raw_report, indent=4, separators=(",", ": "))
-    return report
+    return json.dumps(raw_report, indent=4, separators=(",", ": "))
 
 
 def main():
@@ -72,7 +71,7 @@ def main():
     except:  # skipcq FLK-E722
         sys.exit()
     try:
-        if err is False:
+        if not err:
             cli_output.outputJson(report)
     except (SystemExit, KeyError):
         cli_output.exitError()
