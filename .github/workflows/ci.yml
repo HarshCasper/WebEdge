@@ -1,0 +1,42 @@
+name: Python CI Workflow
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - "3.6"
+          - "3.7"
+          - "3.8"
+          - "3.9"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Upgrade pip version
+        run: |
+          python3 -m pip install --upgrade pip
+      - name: Installs all the Dependencies
+        run: |
+          python3 setup.py install
+      - name: Checks the Application Build
+        run: |
+          pip3 install wheel
+          python3 setup.py sdist bdist_wheel
+      - name: Tests the Application
+        run: |
+          pip3 install -r tests/test-requirements.txt
+          nosetests --with-coverage --cover-package=webedge tests.unit
