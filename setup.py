@@ -7,7 +7,7 @@ with open('README.md', encoding='utf8') as f:
 
 setup(
     name='WebEdge',
-    version='1.0.1',
+    version='1.0.2',
     license='MIT License',
     author='MLH Fellowship Team 1',
     author_email='erbeusgriffincasper@gmail.com',
