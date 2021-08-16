@@ -8,7 +8,7 @@ clanimate==0.0.1
 click==7.1.2
 colorama==0.4.4
 contextlib2==0.6.0
-distlib==0.3.0
+distlib==0.3.2
 distro==1.4.0
 html5lib==1.0.1
 idna==2.8
