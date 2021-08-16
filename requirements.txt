@@ -11,7 +11,7 @@ contextlib2==0.6.0
 distlib==0.3.0
 distro==1.4.0
 html5lib==1.0.1
-idna==2.8
+idna==3.2
 ipaddr==2.2.0
 joblib==0.17.0
 lockfile==0.12.2
