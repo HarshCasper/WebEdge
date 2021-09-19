@@ -99,9 +99,10 @@ nosetests --with-coverage --cover-package=webedge tests.unit
 
 To build with Docker, simply push:
 
-```sh
-docker build -t 'app:webedge' .
-docker run app:webedge
+**Building using docker**
+```bash
+$ docker build -t 'app:webedge' .
+$ docker run app:webedge
 ```
 
 ## 🛑 External Tools
