@@ -4,4 +4,4 @@ mock==4.0.2
 tox==3.20.1
 testtools==2.4.0
 ddt==1.4.1
-jsonschema==3.2.0
+jsonschema==4.1.0
