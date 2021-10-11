@@ -20,8 +20,9 @@ Developed with <span style="color: #8b0000;">&hearts;</span> by your friends at 
     <img src="https://img.shields.io/badge/license-MIT-brightgreen" alt="license MIT"/>
     <img src="https://img.shields.io/badge/Author-MLH%20Fellowship%20Team--1-yellow" alt="MLH Fellowship Team 1"/>
     <img src="https://github.com/harshcasper/webedge/actions/workflows/ci.yml/badge.svg" alt="GitHub-Actions-Build"/>
-	<img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code Format: Black">
-	<a href="https://img.shields.io/pypi/v/webedge"><img src="https://img.shields.io/pypi/v/webedge" alt="PyPI version" height="18"></a>
+    <img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code Format: Black">
+    <a href="https://img.shields.io/pypi/v/webedge"><img src="https://img.shields.io/pypi/v/webedge" alt="PyPI version" height="18"></a>
+    <a href="https://pepy.tech/project/webedge"><img src="https://pepy.tech/badge/webedge" alt="PyPi downloads" height="18"></a>
 </p>
 
 ## 💥 Introduction
