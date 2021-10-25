@@ -24,7 +24,7 @@ prompt-toolkit==1.0.14
 pyfiglet==0.8.post1
 Pygments==2.7.2
 PyInquirer==1.0.3
-pyparsing==2.4.6
+pyparsing==3.0.1
 pytoml==0.1.21
 pyyaml==5.3.1
 regex==2020.11.13
