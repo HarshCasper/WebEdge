@@ -17,7 +17,7 @@ joblib==0.17.0
 lockfile==0.12.2
 msgpack==0.6.2
 nltk==3.5
-packaging==20.3
+packaging==21.2
 pep517==0.8.2
 progress==1.5
 prompt-toolkit==1.0.14
