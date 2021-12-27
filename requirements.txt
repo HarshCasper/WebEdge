@@ -16,7 +16,7 @@ ipaddr==2.2.0
 joblib==0.17.0
 lockfile==0.12.2
 msgpack==0.6.2
-nltk==3.5
+nltk==3.6.6
 packaging==20.3
 pep517==0.8.2
 progress==1.5
