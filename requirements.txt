@@ -2,7 +2,7 @@ appdirs==1.4.3
 beautifulsoup4==4.9.3
 bs4==0.0.1
 CacheControl==0.12.6
-certifi==2019.11.28
+certifi==2022.9.14
 chardet==3.0.4
 clanimate==0.0.1
 click==7.1.2
